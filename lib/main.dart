@@ -1,6 +1,8 @@
 import 'package:codegram/responsive/mobile_screen_layout.dart';
 import 'package:codegram/responsive/responsive_layout_screen.dart';
 import 'package:codegram/responsive/web_screen_layout.dart';
+import 'package:codegram/screens/login_screen.dart';
+import 'package:codegram/screens/signup_screen.dart';
 import 'package:codegram/utils/colors.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -31,13 +33,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData.dark().copyWith(
-          scaffoldBackgroundColor: mobileBackgroundColor,
-        ),
-        title: "codeGRAM",
-        home: const ResponiveLayout(
-            mobileScreenLayout: MobileScreenLayout(),
-            webScreenLayout: WebScreenLayout()));
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData.dark().copyWith(
+        scaffoldBackgroundColor: mobileBackgroundColor,
+      ),
+      // title: "codeGRAM",
+      // home: const ResponiveLayout(
+      //  mobileScreenLayout: MobileScreenLayout(),
+      // webScreenLayout: WebScreenLayout()),
+      home: SignUpScreen(),
+    );
   }
 }
