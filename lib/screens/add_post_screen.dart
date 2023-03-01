@@ -11,21 +11,24 @@ class AddPostScreen extends StatefulWidget {
 }
 
 class _AddPostScreenState extends State<AddPostScreen> {
-
-  _selectImage(BuildContext context){
-    return showDialog(context: context, builder: (context){
-      return SimpleDialog(title: const Text("Create a Post"),
-      children: [
-        SimpleDialogOption(
-          padding: const EdgeInsets.all(20),
-          child: const Text("Take a photo"),
-          onPressed: () async {
-            Navigator.of(context).pop();
-            // Uint8List file = await pickImage(ImageSource.camera,);
-          },
-        ),
-      ],);
-    });
+  _selectImage(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return SimpleDialog(
+            title: const Text("Create a Post"),
+            children: [
+              SimpleDialogOption(
+                padding: const EdgeInsets.all(20),
+                child: const Text("Take a photo"),
+                onPressed: () async {
+                  Navigator.of(context).pop();
+                  // Uint8List file = await pickImage(ImageSource.camera,);
+                },
+              ),
+            ],
+          );
+        });
   }
 
   @override
@@ -89,8 +92,8 @@ class _AddPostScreenState extends State<AddPostScreen> {
                         image: DecorationImage(
                           image: NetworkImage(
                               "https://images.unsplash.com/photo-1474447976065-67d23accb1e3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1885&q=80"),
-                              fit: BoxFit.fill
-                              alignment: FractionalOffset.topCenter,
+                          fit: BoxFit.fill,
+                          alignment: FractionalOffset.topCenter,
                         ),
                       ),
                     ),
