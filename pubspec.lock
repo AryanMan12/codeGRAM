@@ -160,15 +160,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
-<<<<<<< HEAD
   flutter_staggered_grid_view:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: flutter_staggered_grid_view
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.2"
-=======
   flutter_svg:
     dependency: "direct main"
     description:
@@ -176,7 +174,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.6"
->>>>>>> 987d3846724a2646d93b3b16a43140968917eb96
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -348,8 +345,4 @@ packages:
     version: "6.1.0"
 sdks:
   dart: ">=2.17.6 <3.0.0"
-<<<<<<< HEAD
-  flutter: ">=2.0.0"
-=======
   flutter: ">=2.11.0-0.1.pre"
->>>>>>> 987d3846724a2646d93b3b16a43140968917eb96
