@@ -1,3 +1,4 @@
+import 'package:codegram/screens/comment_screen.dart';
 import 'package:codegram/utils/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -25,19 +26,20 @@ class PostCard extends StatelessWidget {
                       "https://images.unsplash.com/photo-1677629828024-7793ff7d9403?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500&q=60"),
                 ),
                 Expanded(
-                    child: Padding(
-                  padding: const EdgeInsets.only(left: 8),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "username",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      )
-                    ],
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "username",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )
+                      ],
+                    ),
                   ),
-                )),
+                ),
                 IconButton(
                     onPressed: () {
                       showDialog(
@@ -89,7 +91,11 @@ class PostCard extends StatelessWidget {
                 ),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => CommentScreen(),
+                  ),
+                ),
                 icon: const Icon(Icons.comment_outlined),
               ),
               IconButton(
@@ -145,8 +151,14 @@ class PostCard extends StatelessWidget {
                 ]),
           ),
           InkWell(
-            onTap: () {},
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => CommentScreen(),
+              ),
+            ),
             child: Container(
+              alignment: Alignment.bottomLeft,
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
               child: Text(
                 "View all 200 comments",
                 style: const TextStyle(
@@ -157,6 +169,8 @@ class PostCard extends StatelessWidget {
             ),
           ),
           Container(
+            alignment: Alignment.bottomLeft,
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
             child: Text(
               "01-03-2023",
               style: const TextStyle(
