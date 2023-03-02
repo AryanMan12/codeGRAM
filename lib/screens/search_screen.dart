@@ -23,7 +23,6 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        /**
       appBar: AppBar(
         backgroundColor: mobileBackgroundColor,
         title: TextFormField(
@@ -77,10 +76,21 @@ class _SearchScreenState extends State<SearchScreen> {
                     child: CircularProgressIndicator(),
                   );
                 }
-                return ();
+
+                return StaggeredGridView.countBuilder(
+                  crossAxisCount: 3,
+                  itemCount: (snapshot.data! as dynamic).docs.length,
+                  itemBuilder: (context, index) => Image.network(
+                      (snapshot.data! as dynamic).docs[index]['postUrl']),
+                  staggeredTileBuilder: (index) => StaggeredTile.count(
+                    (index % 7 == 0) ? 2 : 1,
+                    (index % 7 == 0) ? 2 : 1,
+                  ),
+                  mainAxisSpacing: 8,
+                  crossAxisSpacing: 8,
+                );
               },
             ),
-            **/
-        );
+    );
   }
 }
