@@ -1,4 +1,4 @@
-import 'package:codegram/responsive/global_variables.dart';
+import 'package:codegram/utils/global_variables.dart';
 import 'package:codegram/utils/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
