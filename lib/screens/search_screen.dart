@@ -77,14 +77,10 @@ class _SearchScreenState extends State<SearchScreen> {
                     child: CircularProgressIndicator(),
                   );
                 }
-
-                return StaggeredGridView.countBuilder(
-                    crossAxisCount: 3,
-                    gridDelegate: gridFelegate,
-                    itemBuilder: itemBuilder);
+                return ();
               },
             ),
-    **/
+            **/
         );
   }
 }
