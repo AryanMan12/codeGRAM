@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:typed_data';
 
 import 'package:codegram/resources/storage_methods.dart';
@@ -66,5 +67,9 @@ class AuthMethods {
       res = err.toString();
     }
     return res;
+  }
+
+  Future<void> signOut() async {
+    await _auth.signOut();
   }
 }
