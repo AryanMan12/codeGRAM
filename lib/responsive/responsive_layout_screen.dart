@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'global_variables.dart';
+import '../utils/global_variables.dart';
 
 class ResponiveLayout extends StatelessWidget {
   final Widget webScreenLayout;
