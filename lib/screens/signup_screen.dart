@@ -95,7 +95,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             children: [
               Flexible(child: Container(), flex: 2),
               SvgPicture.asset(
-                'assers/codeGram.svg',
+                'assets/codeGram.svg',
                 color: primaryColor,
                 height: 120,
               ),
