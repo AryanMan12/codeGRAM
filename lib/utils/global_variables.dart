@@ -7,13 +7,12 @@ import 'package:flutter/material.dart';
 
 const webScreenSize = 600;
 
-const homeScreenItems = [
-  FeedScreen(),
-  SearchScreen(),
-  AddPostScreen(),
-  Text("Notifications"),
-  Text("Profile"),
-  /**ProfileScreen(
+List<Widget> homeScreenItems = [
+  const FeedScreen(),
+  const SearchScreen(),
+  const AddPostScreen(),
+  const Text("Notifications"),
+  ProfileScreen(
     uid: FirebaseAuth.instance.currentUser!.uid,
-  ),**/
+  ),
 ];
