@@ -34,50 +34,63 @@ class _MessagesScreenState extends State<MessagesScreen> {
           centerTitle: false,
           elevation: .7,
         ),
-        body: FutureBuilder(
-          future: FirebaseFirestore.instance
-              .collection('users')
-              .where('uid', whereIn: chats)
-              .get(),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-
-            return ListView.builder(
-              itemCount: (snapshot.data! as dynamic).docs.length,
-              itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => ChatScreen(
-                        snap: (snapshot.data! as dynamic).docs[index].data(),
-                      ),
-                    ),
+        body: chats.isEmpty
+            ? Center(
+                child: Text(
+                  "Follow a Follower to start a chat!",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 36,
                   ),
-                  child: Column(children: [
-                    ListTile(
-                      minVerticalPadding: 20,
-                      tileColor: mobileBackgroundColor,
-                      selectedTileColor: mobileSearchColor,
-                      leading: CircleAvatar(
-                        backgroundImage: NetworkImage(
-                            (snapshot.data! as dynamic).docs[index]
-                                ['photoUrl']),
-                        radius: 25,
-                      ),
-                      title: Text(
-                        (snapshot.data! as dynamic).docs[index]['username'],
-                      ),
-                    ),
-                    const Divider()
-                  ]),
-                );
-              },
-            );
-          },
-        ));
+                ),
+              )
+            : FutureBuilder(
+                future: FirebaseFirestore.instance
+                    .collection('users')
+                    .where('uid', whereIn: chats)
+                    .get(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+
+                  return ListView.builder(
+                    itemCount: (snapshot.data! as dynamic).docs.length,
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                        onTap: () => Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => ChatScreen(
+                              snap: (snapshot.data! as dynamic)
+                                  .docs[index]
+                                  .data(),
+                            ),
+                          ),
+                        ),
+                        child: Column(children: [
+                          ListTile(
+                            minVerticalPadding: 20,
+                            tileColor: mobileBackgroundColor,
+                            selectedTileColor: mobileSearchColor,
+                            leading: CircleAvatar(
+                              backgroundImage: NetworkImage(
+                                  (snapshot.data! as dynamic).docs[index]
+                                      ['photoUrl']),
+                              radius: 25,
+                            ),
+                            title: Text(
+                              (snapshot.data! as dynamic).docs[index]
+                                  ['username'],
+                            ),
+                          ),
+                          const Divider()
+                        ]),
+                      );
+                    },
+                  );
+                },
+              ));
   }
 }
