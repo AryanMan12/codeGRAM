@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:codegram/models/user.dart';
 import 'package:codegram/providers/user_provider.dart';
@@ -36,7 +38,7 @@ class _PostCardState extends State<PostCard> {
 
       commentLen = cSnap.docs.length;
     } catch (e) {
-      print(e.toString());
+      log(e.toString());
     }
     setState(() {});
   }
@@ -51,7 +53,7 @@ class _PostCardState extends State<PostCard> {
         children: [
           // Header
           Container(
-            padding: EdgeInsets.symmetric(
+            padding: const EdgeInsets.symmetric(
               vertical: 4,
               horizontal: 16,
             ).copyWith(right: 0),
@@ -78,7 +80,7 @@ class _PostCardState extends State<PostCard> {
                       children: [
                         Text(
                           widget.snap["username"],
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         )
                       ],
                     ),
@@ -99,7 +101,7 @@ class _PostCardState extends State<PostCard> {
               Row(children: [
                 CupertinoButton(
                   minSize: double.minPositive,
-                  padding: EdgeInsets.only(left: 8),
+                  padding: const EdgeInsets.only(left: 8),
                   onPressed: () async {
                     await FirestoreMethods().likePost(
                         widget.snap['postid'], user.uid, widget.snap["likes"]);
@@ -125,7 +127,7 @@ class _PostCardState extends State<PostCard> {
                         widget.snap['postid'], user.uid, widget.snap["likes"]);
                   },
                   child: widget.snap["likes"].contains(user.uid)
-                      ? Icon(
+                      ? const Icon(
                           CupertinoIcons.add,
                           color: Colors.blue,
                           size: 28,
@@ -207,9 +209,9 @@ class _PostCardState extends State<PostCard> {
             ),
             child: Container(
               alignment: Alignment.bottomLeft,
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
               child: Text(
-                "View all ${commentLen} comments",
+                "View all $commentLen comments",
                 style: const TextStyle(
                   fontSize: 16,
                   color: secondaryColor,
@@ -219,7 +221,7 @@ class _PostCardState extends State<PostCard> {
           ),
           Container(
             alignment: Alignment.bottomLeft,
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
             child: Text(
               DateFormat.yMMMd().format(
                 widget.snap["datePublished"].toDate(),

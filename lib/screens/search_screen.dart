@@ -103,8 +103,8 @@ class _SearchScreenState extends State<SearchScreen> {
                           (index % 7 == 0) ? 1 : 1, (index % 7 == 0) ? 1 : 1)
                       : StaggeredTile.count(
                           (index % 7 == 0) ? 2 : 1, (index % 7 == 0) ? 2 : 1),
-                  mainAxisSpacing: 8.0,
-                  crossAxisSpacing: 8.0,
+                  mainAxisSpacing: 4.0,
+                  crossAxisSpacing: 4.0,
                 );
               },
             ),

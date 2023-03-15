@@ -114,9 +114,22 @@ class _AddPostScreenState extends State<AddPostScreen> {
     final User user = Provider.of<UserProvider>(context).getUser;
     return _file == null
         ? Center(
-            child: IconButton(
-              icon: const Icon(Icons.upload),
-              onPressed: () => _selectImage(context),
+            child: Container(
+              height: 100,
+              width: 100,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100),
+                color: primaryColor,
+              ),
+              child: IconButton(
+                alignment: Alignment.center,
+                icon: const Icon(
+                  Icons.upload,
+                  size: 40,
+                  color: Colors.black,
+                ),
+                onPressed: () => _selectImage(context),
+              ),
             ),
           )
         : Scaffold(

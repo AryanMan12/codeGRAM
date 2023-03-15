@@ -3,40 +3,32 @@ import 'package:codegram/utils/colors.dart';
 import 'package:flutter/material.dart';
 import '../widgets/project_item.dart';
 
-class Projects_Screen extends StatefulWidget {
-  const Projects_Screen({Key? key}) : super(key: key);
+class ProjectScreen extends StatefulWidget {
+  const ProjectScreen({Key? key}) : super(key: key);
 
   @override
-  State<Projects_Screen> createState() => _Projects_ScreenState();
+  State<ProjectScreen> createState() => _ProjectScreenState();
 }
 
-class _Projects_ScreenState extends State<Projects_Screen> {
+class _ProjectScreenState extends State<ProjectScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          elevation: 0.0,
-          backgroundColor: Colors.transparent,
-          leading: IconButton(
-            icon: Icon(
-              Icons.keyboard_arrow_left,
-              color: Colors.black,
-            ),
-            onPressed: () {},
-          )),
+        elevation: 0.8,
+        backgroundColor: mobileBackgroundColor,
+        centerTitle: false,
+        title: const Text(
+          "Projects",
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
+        ),
+      ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Column(
           children: <Widget>[
-            Text(
-              "Projects",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 21.0,
-              ),
-            ),
             SizedBox(
-              height: 12.0,
+              height: 4.0,
             ),
             ProjectItem(),
             ProjectItem(),
@@ -50,7 +42,10 @@ class _Projects_ScreenState extends State<Projects_Screen> {
           builder: (context) => FormsPage(),
         )),
         backgroundColor: primaryColor,
-        child: const Icon(Icons.add),
+        child: const Icon(
+          Icons.add,
+          size: 32,
+        ),
       ),
     );
   }
