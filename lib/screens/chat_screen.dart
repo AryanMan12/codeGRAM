@@ -32,6 +32,8 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     final User user = Provider.of<UserProvider>(context).getUser;
+    var users = [user.uid, widget.snap['uid']];
+    users.sort();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: mobileBackgroundColor,
@@ -48,7 +50,7 @@ class _ChatScreenState extends State<ChatScreen> {
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('chats')
-            .where('users', arrayContains: user.uid)
+            .where('users', isEqualTo: users)
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -101,7 +103,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   messages.add(_chatController.text);
                   sender.add(user.uid);
                   FirestoreMethods().sendMessage(
-                      messages, sender, user.uid, widget.snap['username']);
+                      messages, sender, user.uid, widget.snap['uid']);
                   _chatController.text = "";
                 },
                 child: Container(
