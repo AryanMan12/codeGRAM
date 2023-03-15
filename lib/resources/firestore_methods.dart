@@ -84,15 +84,17 @@ class FirestoreMethods {
   Future<void> createChats(String chatUser, String uid) async {
     try {
       String chatId = const Uuid().v1();
+      var users = [uid, chatUser];
+      users.sort();
       await _firestore
           .collection('chats')
-          .where('users', arrayContains: uid)
+          .where('users', isEqualTo: users)
           .get()
           .then((value) {
         if (value.docs.isEmpty) {
           _firestore.collection('chats').doc(chatId).set({
             'chatId': chatId,
-            'users': [uid, chatUser],
+            'users': users,
             'lastdate': "",
             'messages': [],
             'sender': [],
@@ -110,11 +112,13 @@ class FirestoreMethods {
   Future<void> sendMessage(List<dynamic> message, List<dynamic> sender,
       String uid, String chatUser) async {
     try {
+      var users = [uid, chatUser];
+      users.sort();
       if (message.isNotEmpty) {
         var currentTime = DateTime.now();
         await _firestore
             .collection('chats')
-            .where('users', arrayContains: uid)
+            .where('users', isEqualTo: users)
             .get()
             .then((value) => value.docs.first.reference.update({
                   'lastdate': currentTime,

@@ -117,21 +117,39 @@ class _PostCardState extends State<PostCard> {
           // Footer
           Row(
             children: [
-              IconButton(
-                onPressed: () async {
+              InkWell(
+                onTap: () async {
                   await FirestoreMethods().likePost(
                       widget.snap['postid'], user.uid, widget.snap["likes"]);
                 },
-                icon: widget.snap["likes"].contains(user.uid)
-                    ? const Icon(
-                        Icons.add,
-                        color: blueColor,
-                        size: 32,
-                      )
-                    : const Icon(
-                        Icons.add,
-                        size: 32,
-                      ),
+                child: Row(children: [
+                  IconButton(
+                    onPressed: () {},
+                    icon: widget.snap["likes"].contains(user.uid)
+                        ? const Icon(
+                            Icons.add,
+                            color: blueColor,
+                            size: 32,
+                          )
+                        : const Icon(
+                            Icons.add,
+                            size: 32,
+                          ),
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: widget.snap["likes"].contains(user.uid)
+                        ? const Icon(
+                            Icons.add,
+                            color: blueColor,
+                            size: 32,
+                          )
+                        : const Icon(
+                            Icons.add,
+                            size: 32,
+                          ),
+                  ),
+                ]),
               ),
               IconButton(
                 onPressed: () => Navigator.of(context).push(
