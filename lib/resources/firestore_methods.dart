@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -72,6 +73,59 @@ class FirestoreMethods {
           'commentId': commentId,
           'datePublished': DateTime.now()
         });
+      } else {
+        print("Text is Empty");
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<void> createChats(String chatUser, String uid) async {
+    try {
+      String chatId = const Uuid().v1();
+      var users = [uid, chatUser];
+      users.sort();
+      await _firestore
+          .collection('chats')
+          .where('users', isEqualTo: users)
+          .get()
+          .then((value) {
+        if (value.docs.isEmpty) {
+          _firestore.collection('chats').doc(chatId).set({
+            'chatId': chatId,
+            'users': users,
+            'lastdate': "",
+            'messages': [],
+            'sender': [],
+            'timeStamps': [],
+          });
+        } else {
+          print("Already there");
+        }
+      });
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<void> sendMessage(List<dynamic> message, List<dynamic> sender,
+      String uid, String chatUser) async {
+    try {
+      var users = [uid, chatUser];
+      users.sort();
+      if (message.isNotEmpty) {
+        var currentTime = DateTime.now();
+        await _firestore
+            .collection('chats')
+            .where('users', isEqualTo: users)
+            .get()
+            .then((value) => value.docs.first.reference.update({
+                  'lastdate': currentTime,
+                  'messages': message,
+                  'sender': sender,
+                  'timeStamps': FieldValue.arrayUnion([currentTime]),
+                }));
       } else {
         print("Text is Empty");
       }

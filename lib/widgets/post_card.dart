@@ -117,19 +117,39 @@ class _PostCardState extends State<PostCard> {
           // Footer
           Row(
             children: [
-              IconButton(
-                onPressed: () async {
+              InkWell(
+                onTap: () async {
                   await FirestoreMethods().likePost(
                       widget.snap['postid'], user.uid, widget.snap["likes"]);
                 },
-                icon: widget.snap["likes"].contains(user.uid)
-                    ? const Icon(
-                        Icons.favorite,
-                        color: Colors.red,
-                      )
-                    : const Icon(
-                        Icons.favorite_border,
-                      ),
+                child: Row(children: [
+                  IconButton(
+                    onPressed: () {},
+                    icon: widget.snap["likes"].contains(user.uid)
+                        ? const Icon(
+                            Icons.add,
+                            color: blueColor,
+                            size: 32,
+                          )
+                        : const Icon(
+                            Icons.add,
+                            size: 32,
+                          ),
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: widget.snap["likes"].contains(user.uid)
+                        ? const Icon(
+                            Icons.add,
+                            color: blueColor,
+                            size: 32,
+                          )
+                        : const Icon(
+                            Icons.add,
+                            size: 32,
+                          ),
+                  ),
+                ]),
               ),
               IconButton(
                 onPressed: () => Navigator.of(context).push(
@@ -164,12 +184,12 @@ class _PostCardState extends State<PostCard> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   DefaultTextStyle(
-                    style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
                           fontWeight: FontWeight.w800,
                         ),
                     child: Text(
                       '${widget.snap["likes"].length} likes',
-                      style: Theme.of(context).textTheme.bodyText2,
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),
                   Container(
