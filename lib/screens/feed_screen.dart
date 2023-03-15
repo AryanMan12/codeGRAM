@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:codegram/screens/messages_screen.dart';
 import 'package:codegram/utils/colors.dart';
 import 'package:codegram/utils/global_variables.dart';
 import 'package:codegram/widgets/post_card.dart';
@@ -21,11 +22,15 @@ class FeedScreen extends StatelessWidget {
               title: SvgPicture.asset(
                 'assets/codeGram.svg',
                 color: primaryColor,
-                height: 32,
+                height: 52,
               ),
               actions: [
                 IconButton(
-                    onPressed: () {}, icon: Icon(Icons.messenger_outline))
+                    onPressed: () =>
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const MessagesScreen(),
+                        )),
+                    icon: const Icon(Icons.messenger_outline))
               ],
             ),
       body: StreamBuilder(

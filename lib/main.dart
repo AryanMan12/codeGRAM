@@ -46,10 +46,6 @@ class MyApp extends StatelessWidget {
         theme: ThemeData.dark().copyWith(
           scaffoldBackgroundColor: mobileBackgroundColor,
         ),
-        // title: "codeGRAM",
-        // home: const ResponiveLayout(
-        //  mobileScreenLayout: MobileScreenLayout(),
-        // webScreenLayout: WebScreenLayout()),
         home: StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
