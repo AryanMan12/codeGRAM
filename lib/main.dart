@@ -3,6 +3,7 @@ import 'package:codegram/responsive/mobile_screen_layout.dart';
 import 'package:codegram/responsive/responsive_layout_screen.dart';
 import 'package:codegram/responsive/web_screen_layout.dart';
 import 'package:codegram/screens/login_screen.dart';
+import 'package:codegram/screens/project_screen.dart';
 import 'package:codegram/screens/signup_screen.dart';
 import 'package:codegram/utils/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
