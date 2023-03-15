@@ -3,7 +3,9 @@ import 'package:codegram/models/user.dart';
 import 'package:codegram/providers/user_provider.dart';
 import 'package:codegram/resources/firestore_methods.dart';
 import 'package:codegram/screens/comment_screen.dart';
+import 'package:codegram/screens/profile_screen.dart';
 import 'package:codegram/utils/colors.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -55,10 +57,16 @@ class _PostCardState extends State<PostCard> {
             ).copyWith(right: 0),
             child: Row(
               children: [
-                CircleAvatar(
-                  radius: 16,
-                  backgroundImage: NetworkImage(
-                    widget.snap['profImage'],
+                InkWell(
+                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) =>
+                        ProfileScreen(uid: widget.snap['uid']),
+                  )),
+                  child: CircleAvatar(
+                    radius: 16,
+                    backgroundImage: NetworkImage(
+                      widget.snap['profImage'],
+                    ),
                   ),
                 ),
                 Expanded(
@@ -76,35 +84,6 @@ class _PostCardState extends State<PostCard> {
                     ),
                   ),
                 ),
-                IconButton(
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) => Dialog(
-                          child: ListView(
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            shrinkWrap: true,
-                            children: [
-                              "Delete",
-                            ]
-                                .map(
-                                  (e) => InkWell(
-                                    onTap: () {},
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 12,
-                                        horizontal: 16,
-                                      ),
-                                      child: Text(e),
-                                    ),
-                                  ),
-                                )
-                                .toList(),
-                          ),
-                        ),
-                      );
-                    },
-                    icon: const Icon(Icons.more_vert))
               ],
             ),
           ),
@@ -117,40 +96,47 @@ class _PostCardState extends State<PostCard> {
           // Footer
           Row(
             children: [
-              InkWell(
-                onTap: () async {
-                  await FirestoreMethods().likePost(
-                      widget.snap['postid'], user.uid, widget.snap["likes"]);
-                },
-                child: Row(children: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: widget.snap["likes"].contains(user.uid)
-                        ? const Icon(
-                            Icons.add,
-                            color: blueColor,
-                            size: 32,
-                          )
-                        : const Icon(
-                            Icons.add,
-                            size: 32,
-                          ),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: widget.snap["likes"].contains(user.uid)
-                        ? const Icon(
-                            Icons.add,
-                            color: blueColor,
-                            size: 32,
-                          )
-                        : const Icon(
-                            Icons.add,
-                            size: 32,
-                          ),
-                  ),
-                ]),
-              ),
+              Row(children: [
+                CupertinoButton(
+                  minSize: double.minPositive,
+                  padding: EdgeInsets.only(left: 8),
+                  onPressed: () async {
+                    await FirestoreMethods().likePost(
+                        widget.snap['postid'], user.uid, widget.snap["likes"]);
+                  },
+                  child: widget.snap["likes"].contains(user.uid)
+                      ? const Icon(
+                          CupertinoIcons.add,
+                          color: Colors.blue,
+                          size: 28,
+                          weight: 30,
+                        )
+                      : const Icon(
+                          CupertinoIcons.add,
+                          color: Colors.white,
+                          size: 28,
+                        ),
+                ),
+                CupertinoButton(
+                  minSize: double.minPositive,
+                  padding: EdgeInsets.zero,
+                  onPressed: () async {
+                    await FirestoreMethods().likePost(
+                        widget.snap['postid'], user.uid, widget.snap["likes"]);
+                  },
+                  child: widget.snap["likes"].contains(user.uid)
+                      ? Icon(
+                          CupertinoIcons.add,
+                          color: Colors.blue,
+                          size: 28,
+                        )
+                      : const Icon(
+                          CupertinoIcons.add,
+                          size: 28,
+                          color: Colors.white,
+                        ),
+                ),
+              ]),
               IconButton(
                 onPressed: () => Navigator.of(context).push(
                   MaterialPageRoute(
