@@ -1,9 +1,13 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:codegram/models/user.dart';
 import 'package:codegram/providers/user_provider.dart';
 import 'package:codegram/resources/firestore_methods.dart';
 import 'package:codegram/screens/comment_screen.dart';
+import 'package:codegram/screens/profile_screen.dart';
 import 'package:codegram/utils/colors.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -34,7 +38,7 @@ class _PostCardState extends State<PostCard> {
 
       commentLen = cSnap.docs.length;
     } catch (e) {
-      print(e.toString());
+      log(e.toString());
     }
     setState(() {});
   }
@@ -49,16 +53,22 @@ class _PostCardState extends State<PostCard> {
         children: [
           // Header
           Container(
-            padding: EdgeInsets.symmetric(
+            padding: const EdgeInsets.symmetric(
               vertical: 4,
               horizontal: 16,
             ).copyWith(right: 0),
             child: Row(
               children: [
-                CircleAvatar(
-                  radius: 16,
-                  backgroundImage: NetworkImage(
-                    widget.snap['profImage'],
+                InkWell(
+                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) =>
+                        ProfileScreen(uid: widget.snap['uid']),
+                  )),
+                  child: CircleAvatar(
+                    radius: 16,
+                    backgroundImage: NetworkImage(
+                      widget.snap['profImage'],
+                    ),
                   ),
                 ),
                 Expanded(
@@ -70,41 +80,12 @@ class _PostCardState extends State<PostCard> {
                       children: [
                         Text(
                           widget.snap["username"],
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         )
                       ],
                     ),
                   ),
                 ),
-                IconButton(
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) => Dialog(
-                          child: ListView(
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            shrinkWrap: true,
-                            children: [
-                              "Delete",
-                            ]
-                                .map(
-                                  (e) => InkWell(
-                                    onTap: () {},
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 12,
-                                        horizontal: 16,
-                                      ),
-                                      child: Text(e),
-                                    ),
-                                  ),
-                                )
-                                .toList(),
-                          ),
-                        ),
-                      );
-                    },
-                    icon: const Icon(Icons.more_vert))
               ],
             ),
           ),
@@ -117,40 +98,47 @@ class _PostCardState extends State<PostCard> {
           // Footer
           Row(
             children: [
-              InkWell(
-                onTap: () async {
-                  await FirestoreMethods().likePost(
-                      widget.snap['postid'], user.uid, widget.snap["likes"]);
-                },
-                child: Row(children: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: widget.snap["likes"].contains(user.uid)
-                        ? const Icon(
-                            Icons.add,
-                            color: blueColor,
-                            size: 32,
-                          )
-                        : const Icon(
-                            Icons.add,
-                            size: 32,
-                          ),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: widget.snap["likes"].contains(user.uid)
-                        ? const Icon(
-                            Icons.add,
-                            color: blueColor,
-                            size: 32,
-                          )
-                        : const Icon(
-                            Icons.add,
-                            size: 32,
-                          ),
-                  ),
-                ]),
-              ),
+              Row(children: [
+                CupertinoButton(
+                  minSize: double.minPositive,
+                  padding: const EdgeInsets.only(left: 8),
+                  onPressed: () async {
+                    await FirestoreMethods().likePost(
+                        widget.snap['postid'], user.uid, widget.snap["likes"]);
+                  },
+                  child: widget.snap["likes"].contains(user.uid)
+                      ? const Icon(
+                          CupertinoIcons.add,
+                          color: Colors.blue,
+                          size: 28,
+                          weight: 30,
+                        )
+                      : const Icon(
+                          CupertinoIcons.add,
+                          color: Colors.white,
+                          size: 28,
+                        ),
+                ),
+                CupertinoButton(
+                  minSize: double.minPositive,
+                  padding: EdgeInsets.zero,
+                  onPressed: () async {
+                    await FirestoreMethods().likePost(
+                        widget.snap['postid'], user.uid, widget.snap["likes"]);
+                  },
+                  child: widget.snap["likes"].contains(user.uid)
+                      ? const Icon(
+                          CupertinoIcons.add,
+                          color: Colors.blue,
+                          size: 28,
+                        )
+                      : const Icon(
+                          CupertinoIcons.add,
+                          size: 28,
+                          color: Colors.white,
+                        ),
+                ),
+              ]),
               IconButton(
                 onPressed: () => Navigator.of(context).push(
                   MaterialPageRoute(
@@ -221,9 +209,9 @@ class _PostCardState extends State<PostCard> {
             ),
             child: Container(
               alignment: Alignment.bottomLeft,
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
               child: Text(
-                "View all ${commentLen} comments",
+                "View all $commentLen comments",
                 style: const TextStyle(
                   fontSize: 16,
                   color: secondaryColor,
@@ -233,7 +221,7 @@ class _PostCardState extends State<PostCard> {
           ),
           Container(
             alignment: Alignment.bottomLeft,
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
             child: Text(
               DateFormat.yMMMd().format(
                 widget.snap["datePublished"].toDate(),
