@@ -1,3 +1,4 @@
+import 'package:codegram/screens/details_screen.dart';
 import 'package:flutter/material.dart';
 import '../utils/colors.dart';
 
@@ -52,12 +53,17 @@ class ProjectItem extends StatelessWidget {
               ],
             ),
           ),
-          Text(
-            "View",
-            style: TextStyle(
-                color: primaryColor,
-                fontWeight: FontWeight.bold,
-                fontSize: 18.0),
+          TextButton(
+            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => DetailsScreen(),
+            )),
+            child: Text(
+              "View",
+              style: TextStyle(
+                  color: primaryColor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18.0),
+            ),
           ),
         ],
       ),
