@@ -3,14 +3,13 @@ import 'package:flutter/material.dart';
 import '../utils/colors.dart';
 
 class ProjectItem extends StatelessWidget {
-  const ProjectItem({
-    Key? key,
-  }) : super(key: key);
+  final snap;
+  const ProjectItem({Key? key, required this.snap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 4.0),
+      margin: const EdgeInsets.symmetric(vertical: 4.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -28,8 +27,7 @@ class ProjectItem extends StatelessWidget {
                   color: primaryColor,
                   image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: NetworkImage(
-                        "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dGVjaG5vbG9neXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"),
+                    image: NetworkImage(snap['projPhotoUrl']),
                   ),
                   borderRadius: BorderRadius.circular(16.0),
                 ),
@@ -43,21 +41,27 @@ class ProjectItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Project Name",
+                  snap["projectName"],
                   style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18.0),
                 ),
                 Text(
-                  "Project Description...",
-                  style: TextStyle(fontSize: 12.0, color: secondaryColor),
+                  snap["description"],
+                  maxLines: 2,
+                  style: const TextStyle(
+                    fontSize: 12.0,
+                    color: secondaryColor,
+                  ),
                 ),
               ],
             ),
           ),
           TextButton(
             onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => DetailsScreen(),
+              builder: (context) => DetailsScreen(
+                snap: snap,
+              ),
             )),
-            child: Text(
+            child: const Text(
               "View",
               style: TextStyle(
                   color: primaryColor,

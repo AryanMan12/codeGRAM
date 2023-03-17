@@ -2,7 +2,9 @@ import 'package:codegram/utils/colors.dart';
 import 'package:flutter/material.dart';
 
 class DetailsScreen extends StatefulWidget {
-  const DetailsScreen({Key? key}) : super(key: key);
+  final snap;
+
+  const DetailsScreen({Key? key, required this.snap}) : super(key: key);
 
   @override
   State<DetailsScreen> createState() => _DetailsScreenState();
@@ -22,7 +24,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
             Navigator.pop(context);
           },
         ),
-        title: Text('Green Survival'),
+        title: Text(widget.snap["projectName"]),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -33,8 +35,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
               child: CircleAvatar(
                 radius: 90,
                 backgroundColor: primaryColor,
-                backgroundImage: NetworkImage(
-                    'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dGVjaG5vbG9neXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60'),
+                backgroundImage: NetworkImage(widget.snap["projPhotoUrl"]),
               ),
             ),
             SizedBox(
@@ -48,7 +49,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   color: blueColor),
             ),
             Text(
-              'Green Survival is an app developed by my team as an initiative to take a step forward in the betterment of our environment',
+              widget.snap["description"],
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.normal,
@@ -56,7 +57,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
             ),
             SizedBox(height: 16.0),
             Text(
-              'Github Link:',
+              'Project Link:',
               style: TextStyle(
                   fontSize: 25.0,
                   fontWeight: FontWeight.bold,
@@ -64,7 +65,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
             ),
             Expanded(
               child: Text(
-                'https://github.com/',
+                widget.snap["projectLink"],
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.normal,
