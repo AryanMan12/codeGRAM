@@ -180,7 +180,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             ),
                           ),
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: blueColor,
+                            primary: blueColor,
                             padding: const EdgeInsets.symmetric(horizontal: 50),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
