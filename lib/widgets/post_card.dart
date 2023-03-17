@@ -111,7 +111,6 @@ class _PostCardState extends State<PostCard> {
                           CupertinoIcons.add,
                           color: Colors.blue,
                           size: 28,
-                          weight: 30,
                         )
                       : const Icon(
                           CupertinoIcons.add,
