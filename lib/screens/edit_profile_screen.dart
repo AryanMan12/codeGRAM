@@ -1,9 +1,13 @@
 import 'dart:typed_data';
 
+import 'package:codegram/models/user.dart';
 import 'package:codegram/utils/colors.dart';
 import 'package:codegram/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/user_provider.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({Key? key}) : super(key: key);
@@ -14,6 +18,9 @@ class EditProfileScreen extends StatefulWidget {
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
   Uint8List? _image;
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _bioController = TextEditingController();
 
   void selectImage() async {
     Uint8List img = await pickImage(ImageSource.gallery);
@@ -23,17 +30,24 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _usernameController.dispose();
+    _emailController.dispose();
+    _bioController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final User user = Provider.of<UserProvider>(context).getUser;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Profile'),
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: primaryColor,
-          ),
-          onPressed: () {},
+        title: const Text(
+          'Edit Profile',
+          style: TextStyle(fontSize: 22),
         ),
+        backgroundColor: mobileBackgroundColor,
       ),
       body: Container(
         padding: EdgeInsets.only(left: 15, top: 20, right: 15),
@@ -61,8 +75,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         shape: BoxShape.circle,
                         image: DecorationImage(
                           fit: BoxFit.cover,
-                          image: NetworkImage(
-                              'https://t3.ftcdn.net/jpg/00/64/67/52/360_F_64675209_7ve2XQANuzuHjMZXP3aIYIpsDKEbF5dD.jpg'),
+                          image: NetworkImage(user.photoUrl),
                         ),
                       ),
                     ),
@@ -78,6 +91,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           color: primaryColor,
                         ),
                         child: IconButton(
+                          padding: EdgeInsets.only(bottom: 1, left: 1),
                           onPressed: selectImage,
                           icon: const Icon(
                             Icons.edit,
@@ -92,10 +106,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               SizedBox(
                 height: 30,
               ),
-              buildTextField("Username", "John"),
-              buildTextField("Full Name", "John Dwayson"),
-              buildTextField("Email", "john12@gmail.com"),
-              buildTextField("Bio", "Model"),
+              buildTextField(
+                  "Username", user.username, false, _usernameController),
+              buildTextField("Email", user.email, true, _emailController),
+              buildTextField("Bio", user.bio, false, _bioController),
               SizedBox(
                 height: 30,
               ),
@@ -103,7 +117,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   OutlinedButton(
-                    onPressed: () {},
+                    onPressed: () => Navigator.of(context).pop(),
                     child: Text(
                       "CANCEL",
                       style: TextStyle(
@@ -113,7 +127,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                     ),
                     style: OutlinedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(horizontal: 50),
+                      padding: EdgeInsets.symmetric(horizontal: 45),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
@@ -124,10 +138,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     child: Text(
                       "SAVE",
                       style: TextStyle(
-                          fontSize: 15, letterSpacing: 2, color: Colors.white),
+                        fontSize: 15,
+                        letterSpacing: 2,
+                        color: Colors.white,
+                      ),
                     ),
                     style: ElevatedButton.styleFrom(
-                      primary: blueColor,
+                      backgroundColor: blueColor,
                       padding: EdgeInsets.symmetric(horizontal: 50),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
@@ -143,10 +160,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 
-  Widget buildTextField(String labelText, String placeholder) {
+  Widget buildTextField(String labelText, String placeholder, bool readonly,
+      TextEditingController _textController) {
     return Padding(
       padding: EdgeInsets.only(bottom: 30),
       child: TextField(
+        controller: _textController,
+        readOnly: readonly,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.only(bottom: 5),
           labelText: labelText,
