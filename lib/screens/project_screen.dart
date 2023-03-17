@@ -17,6 +17,12 @@ class _ProjectScreenState extends State<ProjectScreen> {
       appBar: AppBar(
         elevation: 0.8,
         backgroundColor: mobileBackgroundColor,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
         centerTitle: false,
         title: const Text(
           "Projects",
