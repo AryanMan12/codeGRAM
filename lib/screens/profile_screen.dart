@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:codegram/resources/auth_methods.dart';
 import 'package:codegram/resources/firestore_methods.dart';
+import 'package:codegram/screens/edit_profile_screen.dart';
 import 'package:codegram/screens/login_screen.dart';
 import 'package:codegram/utils/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -113,22 +114,42 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   children: [
                                     FirebaseAuth.instance.currentUser!.uid ==
                                             widget.uid
-                                        ? FollowButton(
-                                            text: 'Sign Out',
-                                            backgroundColor:
-                                                mobileBackgroundColor,
-                                            textColor: primaryColor,
-                                            borderColor: Colors.grey,
-                                            function: () async {
-                                              await AuthMethods().signOut();
-                                              Navigator.of(context)
-                                                  .pushReplacement(
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const LoginScreen(),
-                                                ),
-                                              );
-                                            },
+                                        ? Column(
+                                            children: [
+                                              FollowButton(
+                                                text: 'Edit',
+                                                backgroundColor:
+                                                    mobileBackgroundColor,
+                                                textColor: primaryColor,
+                                                borderColor: Colors.grey,
+                                                function: () async {
+                                                  Navigator.of(context)
+                                                      .pushReplacement(
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const EditProfileScreen(),
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                              FollowButton(
+                                                text: 'Sign Out',
+                                                backgroundColor:
+                                                    mobileBackgroundColor,
+                                                textColor: primaryColor,
+                                                borderColor: Colors.grey,
+                                                function: () async {
+                                                  await AuthMethods().signOut();
+                                                  Navigator.of(context)
+                                                      .pushReplacement(
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const LoginScreen(),
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                            ],
                                           )
                                         : isFollowing
                                             ? FollowButton(
