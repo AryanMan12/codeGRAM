@@ -4,6 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:codegram/screens/add_project_screen.dart';
 import 'package:codegram/utils/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../models/user.dart';
+import '../providers/user_provider.dart';
 import '../widgets/project_item.dart';
 
 class ProjectScreen extends StatefulWidget {

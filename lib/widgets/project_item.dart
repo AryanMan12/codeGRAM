@@ -1,5 +1,8 @@
 import 'package:codegram/screens/details_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../models/user.dart';
+import '../providers/user_provider.dart';
 import '../utils/colors.dart';
 
 class ProjectItem extends StatelessWidget {
@@ -8,11 +11,14 @@ class ProjectItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final User user = Provider.of<UserProvider>(context).getUser;
+
     return InkWell(
       onTap: () => Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) => DetailsScreen(
             snap: snap,
+            userUid: user.uid,
           ),
         ),
       ),
