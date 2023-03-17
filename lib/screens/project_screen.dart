@@ -29,7 +29,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('projects')
-            // .orderBy("datePublished", descending: true)
+            .orderBy("datePublished", descending: true)
             .snapshots(),
         builder: (context,
             AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
@@ -38,7 +38,6 @@ class _ProjectScreenState extends State<ProjectScreen> {
               child: CircularProgressIndicator(),
             );
           }
-          log(snapshot.data!.docs.toString());
           return ListView.builder(
             itemCount: snapshot.data!.docs.length,
             itemBuilder: (context, index) => ProjectItem(

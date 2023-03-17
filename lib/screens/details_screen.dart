@@ -1,5 +1,6 @@
 import 'package:codegram/utils/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DetailsScreen extends StatefulWidget {
   final snap;
@@ -14,17 +15,21 @@ class _DetailsScreenState extends State<DetailsScreen> {
   final double coverHeight = 280;
   final double projectHeight = 144;
 
+  void _launchURL(url) async {
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
         title: Text(widget.snap["projectName"]),
+        backgroundColor: mobileBackgroundColor,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -38,41 +43,45 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 backgroundImage: NetworkImage(widget.snap["projPhotoUrl"]),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
-            Text(
+            const Text(
               'Description:',
               style: TextStyle(
-                  fontSize: 30.0,
-                  fontWeight: FontWeight.bold,
+                  fontSize: 22.0,
+                  fontWeight: FontWeight.w600,
                   color: blueColor),
             ),
             Text(
               widget.snap["description"],
               style: TextStyle(
-                fontSize: 22,
+                fontSize: 18,
                 fontWeight: FontWeight.normal,
               ),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             Text(
               'Project Link:',
               style: TextStyle(
-                  fontSize: 25.0,
-                  fontWeight: FontWeight.bold,
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.w600,
                   color: blueColor),
             ),
             Expanded(
-              child: Text(
-                widget.snap["projectLink"],
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.normal,
+              child: InkWell(
+                onTap: () => _launchURL(widget.snap["projectLink"]),
+                child: Text(
+                  widget.snap["projectLink"],
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: primaryColor,
+                    fontWeight: FontWeight.normal,
+                  ),
                 ),
               ),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             Text(
               'Want to Join?',
               style: TextStyle(
@@ -88,7 +97,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 child: Text('Ask!'),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
           ],
