@@ -161,4 +161,36 @@ class FirestoreMethods {
       print(e.toString());
     }
   }
+
+  Future<String> saveEditedProfile(
+      String uid,
+      String username,
+      String bio,
+      String ogUsername,
+      String ogBio,
+      Uint8List? file,
+      String ogPhotoUrl) async {
+    String ret = "Unsuccessful";
+    String photoUrl = ogPhotoUrl;
+    try {
+      if (username.isEmpty) {
+        username = ogUsername;
+      }
+      if (bio.isEmpty) {
+        bio = ogBio;
+      }
+      if (file != null) {
+        photoUrl = await StorageMethods()
+            .uploadImageToStorage('profilePics', file, false);
+      }
+      await _firestore
+          .collection('users')
+          .doc(uid)
+          .update({'username': username, 'bio': bio, 'photoUrl': photoUrl});
+      ret = "Successfull";
+    } catch (e) {
+      print(e.toString());
+    }
+    return ret;
+  }
 }
