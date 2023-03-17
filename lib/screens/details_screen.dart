@@ -50,7 +50,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   @override
   void deactivate() async {
     super.deactivate();
-    if (_alreadyLiked || _liked) {
+    if (!(_alreadyLiked && _liked || !_alreadyLiked && !_liked)) {
       await FirestoreMethods().likeProject(
           widget.snap['projectId'], widget.userUid, widget.snap["likes"]);
     }
