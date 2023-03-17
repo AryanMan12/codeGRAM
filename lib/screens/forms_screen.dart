@@ -51,7 +51,7 @@ class _FormsPageState extends State<FormsPage> {
               child: Stack(
                 children: [
                   Container(
-                    width: 150,
+                    width: 130,
                     height: 130,
                     decoration: BoxDecoration(
                       border: Border.all(width: 3, color: primaryColor),
@@ -62,7 +62,7 @@ class _FormsPageState extends State<FormsPage> {
                           color: secondaryColor.withOpacity(0.1),
                         ),
                       ],
-                      shape: BoxShape.rectangle,
+                      shape: BoxShape.circle,
                       image: DecorationImage(
                         fit: BoxFit.cover,
                         image: NetworkImage(
@@ -75,7 +75,7 @@ class _FormsPageState extends State<FormsPage> {
                     right: 0,
                     child: Container(
                       height: 45,
-                      width: 50,
+                      width: 45,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         border: Border.all(width: 3, color: Colors.white),
