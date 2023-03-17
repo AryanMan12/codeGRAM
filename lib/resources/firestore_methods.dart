@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:codegram/models/post.dart';
+import 'package:codegram/models/project.dart';
 import 'package:codegram/resources/storage_methods.dart';
 import 'package:uuid/uuid.dart';
 
@@ -160,5 +161,77 @@ class FirestoreMethods {
     } catch (e) {
       print(e.toString());
     }
+  }
+
+  Future<String> saveEditedProfile(
+      String uid,
+      String username,
+      String bio,
+      String ogUsername,
+      String ogBio,
+      Uint8List? file,
+      String ogPhotoUrl) async {
+    String ret = "Unsuccessful";
+    String photoUrl = ogPhotoUrl;
+    try {
+      if (username.isEmpty) {
+        username = ogUsername;
+      }
+      if (bio.isEmpty) {
+        bio = ogBio;
+      }
+      if (file != null) {
+        photoUrl = await StorageMethods()
+            .uploadImageToStorage('profilePics', file, false);
+      }
+      await _firestore
+          .collection('users')
+          .doc(uid)
+          .update({'username': username, 'bio': bio, 'photoUrl': photoUrl});
+      ret = "Successfull";
+    } catch (e) {
+      print(e.toString());
+    }
+    return ret;
+  }
+
+  Future<String> uploadProject(
+      String projName,
+      String description,
+      Uint8List file,
+      String uid,
+      String username,
+      String profImage,
+      String projectLink) async {
+    String res = "Some error Occurred!";
+    try {
+      if (projName.isEmpty) {
+        res = "Project Name Cannot be Empty";
+      }
+      String photoUrl =
+          await StorageMethods().uploadImageToStorage('projects', file, true);
+
+      String projId = const Uuid().v1();
+
+      Project project = Project(
+          projectName: projName,
+          projectId: projId,
+          description: description,
+          uid: uid,
+          username: username,
+          projPhotoUrl: photoUrl,
+          profImage: profImage,
+          projectLink: projectLink,
+          datePublished: DateTime.now(),
+          likes: []);
+
+      _firestore.collection('projects').doc(projId).set(
+            project.toJson(),
+          );
+      res = "Success";
+    } catch (e) {
+      res = e.toString();
+    }
+    return res;
   }
 }

@@ -1,4 +1,7 @@
-import 'package:codegram/screens/forms_screen.dart';
+import 'dart:developer';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:codegram/screens/add_project_screen.dart';
 import 'package:codegram/utils/colors.dart';
 import 'package:flutter/material.dart';
 import '../widgets/project_item.dart';
@@ -17,35 +20,36 @@ class _ProjectScreenState extends State<ProjectScreen> {
       appBar: AppBar(
         elevation: 0.8,
         backgroundColor: mobileBackgroundColor,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
         centerTitle: false,
         title: const Text(
           "Projects",
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: Column(
-          children: <Widget>[
-            SizedBox(
-              height: 4.0,
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('projects')
+            // .orderBy("datePublished", descending: true)
+            .snapshots(),
+        builder: (context,
+            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          log(snapshot.data!.docs.toString());
+          return ListView.builder(
+            itemCount: snapshot.data!.docs.length,
+            itemBuilder: (context, index) => ProjectItem(
+              snap: snapshot.data!.docs[index].data(),
             ),
-            ProjectItem(),
-            ProjectItem(),
-            ProjectItem(),
-            ProjectItem(),
-          ],
-        ),
+          );
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => FormsPage(),
+          builder: (context) => const AddProjectScreen(),
         )),
         backgroundColor: primaryColor,
         child: const Icon(
